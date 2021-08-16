@@ -15,7 +15,7 @@
         android:id="@+id/navigation_people"
         android:name="com.gr.assignment.ui.people.PeopleFragment"
         android:label="@string/title_people"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_people" />
 
     <fragment
         android:id="@+id/navigation_talk"

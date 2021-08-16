@@ -18,7 +18,7 @@ class PeopleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         peopleViewModel = ViewModelProvider(this.requireActivity()).get(PeopleViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        val root = inflater.inflate(R.layout.fragment_people, container, false)
 
         return root
     }
