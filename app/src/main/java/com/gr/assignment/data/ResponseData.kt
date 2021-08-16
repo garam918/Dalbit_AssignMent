@@ -1,6 +1,8 @@
 package com.gr.assignment.data
 
+import com.google.gson.annotations.SerializedName
+
 data class ResponseData(
-    val classInfo : ArrayList<LectureData>,
-    val publicClassInfo : ArrayList<PublicClassData>
+    @SerializedName("class") val classInfo : ArrayList<LectureData>,
+    @SerializedName("public") val publicClassInfo : ArrayList<PublicClassData>
 )
