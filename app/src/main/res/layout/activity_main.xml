@@ -4,12 +4,93 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.gr.assignment.MainViewModel" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".MainActivity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            setSchoolLogo="@{viewModel.currentSelectedSchool.logoUrl}"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:text="@={viewModel.currentSelectedSchoolName}"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <Spinner
+                android:layout_weight="6"
+                tools:setOnItemSelectedListener="@{viewModel.spinnerClickListener}"
+                android:textSize="16sp"
+                setSpinner="@{viewModel.schoolsName}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="1"
+                android:text="아이디"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:text="@={viewModel.userId}"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="비밀번호"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:text="@={viewModel.userPw}"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <Button
+            app:id="@{viewModel.userId}"
+            app:pw="@{viewModel.userPw}"
+            app:token="@{viewModel.currentSelectedSchool.token}"
+            android:text="로그인"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 </layout>
 
