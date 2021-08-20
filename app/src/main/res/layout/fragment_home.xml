@@ -125,7 +125,7 @@
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        lectureItem="@{homeViewModel.lectureData}"
+                        lectureItem="@{homeViewModel.courseData}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp" />

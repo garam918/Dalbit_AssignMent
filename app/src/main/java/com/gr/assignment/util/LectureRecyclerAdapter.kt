@@ -3,17 +3,19 @@ package com.gr.assignment.util
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.gr.assignment.data.CourseInfoData
 import com.gr.assignment.data.LectureData
+import com.gr.assignment.databinding.CourseItemLayoutBinding
 import com.gr.assignment.databinding.LectureItemLayoutBinding
 
 class LectureRecyclerAdapter : RecyclerView.Adapter<LectureRecyclerAdapter.ViewHolder>() {
-    var items = ArrayList<LectureData>()
+    var items = ArrayList<CourseInfoData>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding = LectureItemLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = CourseItemLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(binding)
     }
 
@@ -23,9 +25,13 @@ class LectureRecyclerAdapter : RecyclerView.Adapter<LectureRecyclerAdapter.ViewH
         holder.bind(items[position])
     }
 
-    inner class ViewHolder(private val binding : LectureItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : LectureData) {
+    inner class ViewHolder(private val binding : CourseItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item : CourseInfoData) {
             binding.item = item
+
+            binding.root.setOnClickListener {
+                
+            }
         }
     }
 }
