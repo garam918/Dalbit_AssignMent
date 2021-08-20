@@ -4,5 +4,5 @@ data class ResponseSchoolDetailData(
     val result : String,
     val code : String,
     val message : String,
-    val data : SchoolDetailData
+    val data : SchoolDetailData?
 )
