@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.gr.assignment.R
 import com.gr.assignment.databinding.FragmentHomeBinding
 
@@ -34,6 +35,5 @@ class HomeFragment : Fragment() {
         binding.homeViewModel = homeViewModel
 
         homeViewModel.getCourseList()
-
     }
 }

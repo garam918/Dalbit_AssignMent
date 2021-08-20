@@ -2,6 +2,7 @@ package com.gr.assignment
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -20,7 +21,7 @@ class CourseMosActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(R.id.navigation_home, R.id.navigation_people, R.id.navigation_notifications
-                , R.id.navigation_talk, R.id.navigation_more) )
+                , R.id.navigation_talk, R.id.navigation_more))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
