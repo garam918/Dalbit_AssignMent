@@ -13,7 +13,6 @@ import com.gr.assignment.CourseMosActivity
 import com.gr.assignment.R
 import com.gr.assignment.SingleTon
 import com.gr.assignment.data.CourseInfoData
-import com.gr.assignment.data.LectureData
 import com.gr.assignment.data.PublicClassData
 import com.gr.assignment.data.ResponseLoginData
 import com.gr.assignment.network.RetrofitBuilder

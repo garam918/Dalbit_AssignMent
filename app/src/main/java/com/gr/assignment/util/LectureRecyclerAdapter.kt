@@ -1,19 +1,12 @@
 package com.gr.assignment.util
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.gr.assignment.CourseMosActivity
 import com.gr.assignment.R
 import com.gr.assignment.data.CourseInfoData
-import com.gr.assignment.data.LectureData
 import com.gr.assignment.databinding.CourseItemLayoutBinding
-import com.gr.assignment.databinding.LectureItemLayoutBinding
-import com.gr.assignment.ui.home.CourseInfoFragment
 
 class LectureRecyclerAdapter : RecyclerView.Adapter<LectureRecyclerAdapter.ViewHolder>() {
     var items = ArrayList<CourseInfoData>()
@@ -37,7 +30,7 @@ class LectureRecyclerAdapter : RecyclerView.Adapter<LectureRecyclerAdapter.ViewH
             binding.item = item
 
             binding.root.setOnClickListener {
-                binding.root.findNavController().navigate(R.id.action_navigation_home_to_navigation_course_info)
+                binding.root.findNavController().navigate(R.id.action_navigation_home_to_navigation_view_pager)
             }
         }
     }

@@ -11,15 +11,15 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_navigation_home_to_navigation_course_info"
-            app:destination="@id/navigation_course_info" />
+            android:id="@+id/action_navigation_home_to_navigation_view_pager"
+            app:destination="@id/navigation_view_pager" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_course_info"
-        android:name="com.gr.assignment.ui.home.CourseInfoFragment"
+        android:id="@+id/navigation_view_pager"
+        android:name="com.gr.assignment.ui.home.ViewPagerFragment"
         android:label="Course"
-        tools:layout="@layout/fragment_course_info"/>
+        tools:layout="@layout/fragment_view_pager"/>
 
     <fragment
         android:id="@+id/navigation_people"

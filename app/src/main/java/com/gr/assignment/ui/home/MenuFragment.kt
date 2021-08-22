@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.gr.assignment.R
 
-class CourseInfoFragment : Fragment() {
+class MenuFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        return inflater.inflate(R.layout.fragment_course_info, container, false)
+        return inflater.inflate(R.layout.fragment_menu, container, false)
     }
 
 }

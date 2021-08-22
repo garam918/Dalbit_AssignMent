@@ -13,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeViewModel : ViewModel() {
 
@@ -20,8 +21,11 @@ class HomeViewModel : ViewModel() {
 
     val lectureData = ObservableArrayList<LectureData?>()
     val publicClassData = ObservableArrayList<PublicClassData>()
+
     val profileImage = MutableLiveData<String>().apply { this.value = "" }
     val courseData = ObservableArrayList<CourseInfoData>()
+
+    val currentCourseContentData = MutableLiveData<MutableList<CourseDetailData>>()
 
     val userToken = MutableLiveData<String>().apply {
         this.value = SingleTon.prefs.userToken
@@ -87,6 +91,23 @@ class HomeViewModel : ViewModel() {
                 }
             }
         })
+    }
 
+    fun getCourseContent(courseId : Int, userToken : String) {
+        retrofitBuilder.networkService.getCourseContent(courseId,userToken).enqueue(object : Callback<ResponseCourseContentData>{
+            override fun onFailure(call: Call<ResponseCourseContentData>, t: Throwable) {
+
+            }
+
+            override fun onResponse(
+                call: Call<ResponseCourseContentData>,
+                response: Response<ResponseCourseContentData>
+            ) {
+                val res = response.body()!!
+                res.data.forEachIndexed { index, data ->
+                    currentCourseContentData.value?.add(index,CourseDetailData(data.id,data.name,data.courseId,data.modName))
+                }
+            }
+        })
     }
 }
