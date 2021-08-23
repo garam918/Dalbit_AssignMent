@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.gr.assignment.CourseMosActivity
 import com.gr.assignment.R
 import com.gr.assignment.SingleTon
+import com.gr.assignment.data.CourseDetailData
 import com.gr.assignment.data.CourseInfoData
 import com.gr.assignment.data.PublicClassData
 import com.gr.assignment.data.ResponseLoginData
@@ -113,5 +114,18 @@ object DataBindingAdapter {
         button.setOnClickListener {
             it.findNavController().navigate(R.id.action_navigation_view_pager_to_navigation_home)
         }
+    }
+
+    @BindingAdapter("courseItem")
+    @JvmStatic
+    fun setCourseItem(recyclerView: RecyclerView, items: ObservableArrayList<CourseDetailData>) {
+        if(recyclerView.adapter == null) {
+            val lm = LinearLayoutManager(recyclerView.context)
+            val adapter = ContentsRecyclerAdapter()
+            recyclerView.layoutManager = lm
+            recyclerView.adapter = adapter
+        }
+        (recyclerView.adapter as ContentsRecyclerAdapter).items = items
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 }

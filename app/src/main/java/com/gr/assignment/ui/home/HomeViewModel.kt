@@ -13,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import javax.security.auth.login.LoginException
 import kotlin.collections.ArrayList
 
 class HomeViewModel : ViewModel() {
@@ -25,7 +26,9 @@ class HomeViewModel : ViewModel() {
     val profileImage = MutableLiveData<String>().apply { this.value = "" }
     val courseData = ObservableArrayList<CourseInfoData>()
 
-    val currentCourseContentData = MutableLiveData<MutableList<CourseDetailData>>()
+    val currentCourseContentData = ObservableArrayList<CourseDetailData>()
+    val currentSelectedCourseName = MutableLiveData<String>()
+    val currentSelectedCourseId = MutableLiveData<Int>()
 
     val userToken = MutableLiveData<String>().apply {
         this.value = SingleTon.prefs.userToken
@@ -51,12 +54,10 @@ class HomeViewModel : ViewModel() {
 
     fun getCourseList() {
 
-        if(courseData.isNullOrEmpty()) {
+        courseData.clear()
 
-            retrofitBuilder.networkService.getCourseList(
-                userToken.value.toString(),
-                userToken.value.toString()
-            ).enqueue(object : Callback<ResponseCourseListData> {
+        retrofitBuilder.networkService.getCourseList(userToken.value.toString(), userToken.value.toString())
+            .enqueue(object : Callback<ResponseCourseListData> {
                 override fun onFailure(call: Call<ResponseCourseListData>, t: Throwable) {
 
                 }
@@ -67,11 +68,11 @@ class HomeViewModel : ViewModel() {
                 ) {
                     val res = response.body()!!
                     res.data.forEach { courseInfoData ->
-                        courseData.add(courseInfoData)
+                        if(courseInfoData.visible == "1") courseData.add(courseInfoData)
                     }
                 }
             })
-        }
+
     }
 
     fun getLectureInfo() {
@@ -94,6 +95,10 @@ class HomeViewModel : ViewModel() {
     }
 
     fun getCourseContent(courseId : Int, userToken : String) {
+        Log.e("사용자 토큰",userToken)
+
+        currentCourseContentData.clear()
+
         retrofitBuilder.networkService.getCourseContent(courseId,userToken).enqueue(object : Callback<ResponseCourseContentData>{
             override fun onFailure(call: Call<ResponseCourseContentData>, t: Throwable) {
 
@@ -104,8 +109,9 @@ class HomeViewModel : ViewModel() {
                 response: Response<ResponseCourseContentData>
             ) {
                 val res = response.body()!!
-                res.data.forEachIndexed { index, data ->
-                    currentCourseContentData.value?.add(index,CourseDetailData(data.id,data.name,data.courseId,data.modName))
+                res.data.forEach{ courseDetailData ->
+                    Log.e("$$$", courseDetailData.toString())
+                    currentCourseContentData.add(courseDetailData)
                 }
             }
         })
