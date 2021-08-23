@@ -28,7 +28,6 @@ class CourseInfoFragment : Fragment() {
 
         viewModel.getCourseContent(viewModel.currentSelectedCourseId.value!!.toInt(),viewModel.userToken.value.toString())
 
-
         return binding.root
     }
 

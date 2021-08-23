@@ -34,6 +34,9 @@ class HomeViewModel : ViewModel() {
         this.value = SingleTon.prefs.userToken
     }
 
+    val boardDataList = ObservableArrayList<BoardDetailData>()
+    val currentSelectedContentsName = MutableLiveData<String>()
+
     val mon = MutableLiveData<Int>().apply {
         val now = System.currentTimeMillis()
         val date = Date(now)
@@ -114,6 +117,29 @@ class HomeViewModel : ViewModel() {
                     currentCourseContentData.add(courseDetailData)
                 }
             }
+        })
+    }
+
+    fun getBoard(contentsId : Int) {
+        boardDataList.clear()
+
+        retrofitBuilder.networkService.getBoard(contentsId, SingleTon.prefs.userToken.toString()).enqueue(object : Callback<ResponseBoardData>{
+            override fun onFailure(call: Call<ResponseBoardData>, t: Throwable) {
+
+            }
+
+            override fun onResponse(
+                call: Call<ResponseBoardData>,
+                response: Response<ResponseBoardData>
+            ) {
+                val res = response.body()!!
+                if(res.message == "success") {
+                    res.data.forEach { boardDetailData ->
+                        boardDataList.add(boardDetailData)
+                    }
+                }
+            }
+
         })
     }
 }

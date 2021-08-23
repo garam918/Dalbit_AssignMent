@@ -1,6 +1,7 @@
 package com.gr.assignment.network
 
 import com.gr.assignment.data.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -48,17 +49,17 @@ interface NetworkService {
         @Body token: String,
         @Body subject : String,
         @Body content : String
-    ) : Call<ResponseBoardData>
+    ) : Call<DefaultResponseBody>
 
     @DELETE("/test/board")
     fun deleteBoard(
         @Body board_id : Int,
         @Body token : String
-    ) : Call<ResponseBoardData>
+    ) : Call<DefaultResponseBody>
 
     @GET("/test/web")
     fun getWebView(
         @Header("token") token: String,
         @Header("contentsid") contentsId: Int
-    ) : Call<ResponseBoardData>
+    ) : Call<ResponseBody>
 }
