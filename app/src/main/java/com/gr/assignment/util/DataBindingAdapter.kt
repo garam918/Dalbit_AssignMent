@@ -13,10 +13,7 @@ import com.bumptech.glide.Glide
 import com.gr.assignment.CourseMosActivity
 import com.gr.assignment.R
 import com.gr.assignment.SingleTon
-import com.gr.assignment.data.CourseDetailData
-import com.gr.assignment.data.CourseInfoData
-import com.gr.assignment.data.PublicClassData
-import com.gr.assignment.data.ResponseLoginData
+import com.gr.assignment.data.*
 import com.gr.assignment.network.RetrofitBuilder
 import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
@@ -126,6 +123,19 @@ object DataBindingAdapter {
             recyclerView.adapter = adapter
         }
         (recyclerView.adapter as ContentsRecyclerAdapter).items = items
+        recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    @BindingAdapter("boardItem")
+    @JvmStatic
+    fun setBoardItem(recyclerView: RecyclerView, items: ObservableArrayList<BoardDetailData>) {
+        if(recyclerView.adapter == null) {
+            val lm = LinearLayoutManager(recyclerView.context)
+            val adapter = BoardRecyclerAdapter()
+            recyclerView.layoutManager = lm
+            recyclerView.adapter = adapter
+        }
+        (recyclerView.adapter as BoardRecyclerAdapter).items = items
         recyclerView.adapter?.notifyDataSetChanged()
     }
 }

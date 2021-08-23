@@ -34,6 +34,29 @@
         <action
             android:id="@+id/action_navigation_view_pager_to_navigation_home"
             app:destination="@id/navigation_home" />
+
+        <action
+            android:id="@+id/action_navigation_view_pager_to_navigation_content"
+            app:destination="@id/navigation_content" >
+
+            <argument
+                android:name="contentsName"
+                app:argType="string"/>
+
+            <argument
+                android:name="contentsId"
+                app:argType="integer"/>
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_content"
+        android:name="com.gr.assignment.ui.home.ContentFragment"
+        android:label="Content"
+        tools:layout="@layout/fragment_content">
+
+
     </fragment>
 
     <fragment

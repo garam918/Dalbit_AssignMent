@@ -37,6 +37,7 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
+                    android:textStyle="bold"
                     android:text="@{viewModel.currentSelectedCourseName}"
                     android:textColor="#FCFCFC"
                     android:textSize="20sp"

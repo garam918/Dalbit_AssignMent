@@ -22,6 +22,10 @@ class MainViewModel : ViewModel() {
         this.value = arrayListOf(SchoolInfoData(0,"",""))
     }
 
+    val schoolToken = MutableLiveData<String>().apply {
+        this.value = SingleTon.prefs.schoolToken
+    }
+
     val schoolsName = MutableLiveData<ArrayList<String>>().apply {
         this.value = arrayListOf("학교를 선택해주세요")
     }
@@ -74,8 +78,11 @@ class MainViewModel : ViewModel() {
                 val data = res.data
 
                 if(res.message == "success") {
+
+                    schoolToken.value = data?.token
+
                     currentSelectedSchool.value =
-                        SchoolDetailData(data!!.id, data.name, data.logoUrl, data.token)
+                        SchoolDetailData(data!!.id, data.name, data.logoUrl, schoolToken.value.toString())
 
                     Log.e("제발 돼라", currentSelectedSchool.value.toString())
                 }
