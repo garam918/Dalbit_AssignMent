@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -106,4 +107,11 @@ object DataBindingAdapter {
         Glide.with(imageView.context).load(url).error(R.drawable.ic_launcher_foreground).into(imageView)
     }
 
+    @BindingAdapter("setPreviousOnClick")
+    @JvmStatic
+    fun setOnclick(button: ImageButton, name : String) {
+        button.setOnClickListener {
+            it.findNavController().navigate(R.id.action_navigation_view_pager_to_navigation_home)
+        }
+    }
 }

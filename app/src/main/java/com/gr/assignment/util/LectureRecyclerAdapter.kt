@@ -2,6 +2,7 @@ package com.gr.assignment.util
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.gr.assignment.R
@@ -29,8 +30,11 @@ class LectureRecyclerAdapter : RecyclerView.Adapter<LectureRecyclerAdapter.ViewH
         fun bind(item : CourseInfoData) {
             binding.item = item
 
+            val bundle = bundleOf("courseName" to item.name , "courseId" to item.id)
+
             binding.root.setOnClickListener {
-                binding.root.findNavController().navigate(R.id.action_navigation_home_to_navigation_view_pager)
+                binding.root.findNavController().navigate(R.id.action_navigation_home_to_navigation_view_pager,
+                    bundle)
             }
         }
     }

@@ -12,14 +12,29 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_navigation_view_pager"
-            app:destination="@id/navigation_view_pager" />
+            app:destination="@id/navigation_view_pager">
+
+            <argument
+                android:name="courseName"
+                app:argType="string" />
+
+            <argument
+                android:name="courseId"
+                app:argType="integer"
+                />
+
+        </action>
     </fragment>
 
     <fragment
         android:id="@+id/navigation_view_pager"
         android:name="com.gr.assignment.ui.home.ViewPagerFragment"
         android:label="Course"
-        tools:layout="@layout/fragment_view_pager"/>
+        tools:layout="@layout/fragment_view_pager">
+        <action
+            android:id="@+id/action_navigation_view_pager_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_people"
