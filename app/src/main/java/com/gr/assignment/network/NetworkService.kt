@@ -1,9 +1,12 @@
 package com.gr.assignment.network
 
+import android.text.Html
 import com.gr.assignment.data.*
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
+import javax.security.auth.Subject
 
 interface NetworkService {
 
@@ -45,21 +48,17 @@ interface NetworkService {
 
     @POST("/test/board")
     fun boardWrite(
-        @Body contents_id: Int,
-        @Body token: String,
-        @Body subject : String,
-        @Body content : String
+        @Body postData: PostData
     ) : Call<DefaultResponseBody>
 
-    @DELETE("/test/board")
+    @HTTP(method = "DELETE", path = "/test/board", hasBody = true)
     fun deleteBoard(
-        @Body board_id : Int,
-        @Body token : String
+        @Body deleteData : DeleteData
     ) : Call<DefaultResponseBody>
 
     @GET("/test/web")
     fun getWebView(
         @Header("token") token: String,
         @Header("contentsid") contentsId: Int
-    ) : Call<ResponseBody>
+    ) : Call<Html>
 }

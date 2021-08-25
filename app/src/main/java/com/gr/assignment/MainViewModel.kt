@@ -80,6 +80,7 @@ class MainViewModel : ViewModel() {
                 if(res.message == "success") {
 
                     schoolToken.value = data?.token
+                    SingleTon.prefs.currentSchoolId = id
 
                     currentSelectedSchool.value =
                         SchoolDetailData(data!!.id, data.name, data.logoUrl, schoolToken.value.toString())

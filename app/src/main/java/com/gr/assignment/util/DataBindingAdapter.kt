@@ -1,8 +1,10 @@
 package com.gr.assignment.util
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.core.os.bundleOf
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
@@ -11,11 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gr.assignment.CourseMosActivity
+import com.gr.assignment.MainActivity
 import com.gr.assignment.R
 import com.gr.assignment.SingleTon
 import com.gr.assignment.data.*
 import com.gr.assignment.network.RetrofitBuilder
 import de.hdodenhof.circleimageview.CircleImageView
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -89,6 +94,7 @@ object DataBindingAdapter {
                         response: Response<ResponseLoginData>
                     ) {
                         SingleTon.prefs.userToken = response.body()?.data?.token
+                        SingleTon.prefs.schoolToken = token
 
                         val intent = Intent(button.context, CourseMosActivity::class.java)
                         button.context.startActivity(intent)
@@ -138,4 +144,71 @@ object DataBindingAdapter {
         (recyclerView.adapter as BoardRecyclerAdapter).items = items
         recyclerView.adapter?.notifyDataSetChanged()
     }
+
+    @BindingAdapter("boardWrite")
+    @JvmStatic
+    fun boardWrite(button: Button, contentsId : Int) {
+        val bundle = bundleOf("contentsId" to contentsId)
+
+        button.setOnClickListener {
+            it.findNavController().navigate(R.id.action_navigation_content_to_navigation_board_write,bundle)
+        }
+    }
+
+    @BindingAdapter("contentsId" ,"contentsName", "token", "subject", "content")
+    @JvmStatic
+    fun confirm(button: Button, contentsId: Int, contentsName: String, token: String, subject : String?, content : String?) {
+
+        button.setOnClickListener {
+
+            val data = PostData(contentsId,token,subject.toString(),content.toString())
+
+            RetrofitBuilder.networkService.boardWrite(data).enqueue(object : Callback<DefaultResponseBody> {
+                override fun onFailure(call: Call<DefaultResponseBody>, t: Throwable) {
+
+                }
+
+                override fun onResponse(
+                    call: Call<DefaultResponseBody>,
+                    response: Response<DefaultResponseBody>
+                ) {
+                    val res = response.body()!!
+                    val bundle = bundleOf("contentsId" to contentsId, "contentsName" to contentsName)
+                    Log.e("res",res.toString())
+                    if(res.message == "success") {
+                        it.findNavController().navigate(R.id.action_navigation_board_write_to_navigation_content, bundle)
+                    }
+
+
+                }
+            })
+        }
+    }
+
+    @BindingAdapter("contentsId", "contentsName")
+    @JvmStatic
+    fun setCancel(button: Button, contentsId: Int, contentsName : String) {
+        button.setOnClickListener {
+            it.findNavController().navigate(R.id.action_navigation_board_write_to_navigation_content, bundleOf("contentsId" to contentsId , "contentsName" to contentsName))
+        }
+    }
+
+    @BindingAdapter("courseName","courseId")
+    @JvmStatic
+    fun setPrevious(imageButton: ImageButton, courseName : String, courseId: Int) {
+        val bundle = bundleOf("courseName" to courseName, "courseId" to courseId)
+        imageButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_navigation_content_to_navigation_view_pager,bundle)
+        }
+    }
+
+//    @BindingAdapter("setReLogin")
+//    @JvmStatic
+//    fun setAutoLogin(button: Button) {
+//        button.setOnClickListener {
+//            val intent = Intent(it.context,MainActivity::class.java)
+//            button.context.startActivity(intent)
+//        }
+//    }
+
 }

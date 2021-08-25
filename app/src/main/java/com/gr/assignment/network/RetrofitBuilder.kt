@@ -7,7 +7,6 @@ object RetrofitBuilder {
 
     private const val baseUrl = "https://alia.dalbitsoft.com"
 
-
     fun getRetrofit() : Retrofit {
         return Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
