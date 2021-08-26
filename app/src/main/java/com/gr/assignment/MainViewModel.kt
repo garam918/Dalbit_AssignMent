@@ -19,12 +19,12 @@ class MainViewModel : ViewModel() {
     val userPw = MutableLiveData<String>()
 
     val schoolData = MutableLiveData<ArrayList<SchoolInfoData>>().apply {
-        this.value = arrayListOf(SchoolInfoData(0,"",""))
+        this.value = arrayListOf()
     }
 
-    val schoolToken = MutableLiveData<String>().apply {
-        this.value = SingleTon.prefs.schoolToken
-    }
+//    val schoolToken = MutableLiveData<String>().apply {
+//        this.value = SingleTon.prefs.schoolToken
+//    }
 
     val schoolsName = MutableLiveData<ArrayList<String>>().apply {
         this.value = arrayListOf("학교를 선택해주세요")
@@ -41,6 +41,8 @@ class MainViewModel : ViewModel() {
     }
 
     fun getSchoolList() {
+        schoolData.value?.clear()
+
         retrofitBuilder.networkService.getSchoolList().enqueue(object : Callback<ResponseSchoolListData> {
             override fun onFailure(call: Call<ResponseSchoolListData>, t: Throwable) {
 
@@ -79,13 +81,12 @@ class MainViewModel : ViewModel() {
 
                 if(res.message == "success") {
 
-                    schoolToken.value = data?.token
+                    SingleTon.prefs.schoolToken = data?.token
                     SingleTon.prefs.currentSchoolId = id
 
                     currentSelectedSchool.value =
-                        SchoolDetailData(data!!.id, data.name, data.logoUrl, schoolToken.value.toString())
+                        SchoolDetailData(data!!.id, data.name, data.logoUrl, SingleTon.prefs.schoolToken.toString())
 
-                    Log.e("제발 돼라", currentSelectedSchool.value.toString())
                 }
             }
         })
