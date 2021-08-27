@@ -77,6 +77,7 @@ class BoardRecyclerAdapter : RecyclerView.Adapter<BoardRecyclerAdapter.ViewHolde
                         response: Response<DefaultResponseBody>
                     ) {
                         val res = response.body()!!
+                        // message가 삭제 완료인 경우에만 list에서 삭제되도록 구현했습니다.
                         when (res.message) {
                             "삭제완료" -> {
                                 Toast.makeText(binding.root.context,"삭제가 완료되었습니다.",Toast.LENGTH_SHORT).show()

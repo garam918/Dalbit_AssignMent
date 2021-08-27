@@ -43,6 +43,7 @@ class RequestFragmentDialog : DialogFragment() {
             this.dismiss()
         }
 
+        // 현재 어디에 있든 토큰이 만료되어 재로그인 버튼을 누르면 MainActivity로 이동하여 로그인을 하도록 구현했습니다.
         binding.reLoginButton.setOnClickListener {
             val intent = Intent(this.context,MainActivity::class.java)
             this.requireActivity().startActivity(intent)

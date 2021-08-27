@@ -34,6 +34,7 @@ class CourseMosActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    // Activity 내에서 뒤로가기 버튼을 2번 누르면 종료되도록 했고, 이전 화면으로 넘어가는 기능은 Actionbar의 Button과 Navigation으로 구현했습니다.
     override fun onBackPressed() {
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();

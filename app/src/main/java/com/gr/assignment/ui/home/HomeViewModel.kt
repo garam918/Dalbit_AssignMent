@@ -69,6 +69,7 @@ class HomeViewModel : ViewModel() {
                 ) {
                     val res = response.body()!!
 
+                    // message가 success인 경우 중 visible값이 1인 경우에만 list에 data를 넣었습니다.
                     if(res.message == "success") {
                         res.data.forEach { courseInfoData ->
                             if (courseInfoData.visible == "1") courseData.add(courseInfoData)
