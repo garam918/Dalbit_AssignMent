@@ -1,12 +1,9 @@
 package com.gr.assignment.network
 
-import android.text.Html
 import com.gr.assignment.data.*
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
-import javax.security.auth.Subject
 
 interface NetworkService {
 
@@ -60,5 +57,5 @@ interface NetworkService {
     fun getWebView(
         @Header("token") token: String,
         @Header("contentsid") contentsId: Int
-    ) : Call<Html>
+    ) : Call<ResponseBody>
 }

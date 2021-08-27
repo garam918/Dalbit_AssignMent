@@ -1,11 +1,13 @@
 package com.gr.assignment
 
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gr.assignment.data.*
+import com.gr.assignment.data.ResponseSchoolDetailData
+import com.gr.assignment.data.ResponseSchoolListData
+import com.gr.assignment.data.SchoolDetailData
+import com.gr.assignment.data.SchoolInfoData
 import com.gr.assignment.network.RetrofitBuilder
 import retrofit2.Call
 import retrofit2.Callback
@@ -82,7 +84,6 @@ class MainViewModel : ViewModel() {
                 if(res.message == "success") {
 
                     SingleTon.prefs.schoolToken = data?.token
-                    SingleTon.prefs.currentSchoolId = id
 
                     currentSelectedSchool.value =
                         SchoolDetailData(data!!.id, data.name, data.logoUrl, SingleTon.prefs.schoolToken.toString())

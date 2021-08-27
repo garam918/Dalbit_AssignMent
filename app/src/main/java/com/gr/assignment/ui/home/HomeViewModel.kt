@@ -1,20 +1,18 @@
 package com.gr.assignment.ui.home
 
 import android.icu.text.SimpleDateFormat
-import android.util.Log
 import androidx.databinding.ObservableArrayList
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gr.assignment.RequestFragmentDialog
 import com.gr.assignment.SingleTon
 import com.gr.assignment.data.*
-import com.gr.assignment.network.NetworkService
 import com.gr.assignment.network.RetrofitBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import javax.security.auth.login.LoginException
-import kotlin.collections.ArrayList
 
 class HomeViewModel : ViewModel() {
 
@@ -30,12 +28,12 @@ class HomeViewModel : ViewModel() {
     val currentSelectedCourseName = MutableLiveData<String>()
     val currentSelectedCourseId = MutableLiveData<Int>()
 
-    val userToken = MutableLiveData<String>().apply {
-        this.value = SingleTon.prefs.userToken
-    }
+    val subject = MutableLiveData<String>()
+    val content = MutableLiveData<String>()
 
     val boardDataList = ObservableArrayList<BoardDetailData>()
     val currentSelectedContentsName = MutableLiveData<String>()
+    val currentSelectedContentsId = MutableLiveData<Int>()
 
     val mon = MutableLiveData<Int>().apply {
         val now = System.currentTimeMillis()
@@ -55,11 +53,11 @@ class HomeViewModel : ViewModel() {
         this.value = time
     }
 
-    fun getCourseList() {
+    fun getCourseList(supportFragmentManager: FragmentManager) {
 
         courseData.clear()
 
-        retrofitBuilder.networkService.getCourseList(userToken.value.toString(), userToken.value.toString())
+        retrofitBuilder.networkService.getCourseList(SingleTon.prefs.userToken.toString(), SingleTon.prefs.userToken.toString())
             .enqueue(object : Callback<ResponseCourseListData> {
                 override fun onFailure(call: Call<ResponseCourseListData>, t: Throwable) {
 
@@ -70,9 +68,12 @@ class HomeViewModel : ViewModel() {
                     response: Response<ResponseCourseListData>
                 ) {
                     val res = response.body()!!
-                    res.data.forEach { courseInfoData ->
-                        if(courseInfoData.visible == "1") courseData.add(courseInfoData)
-                    }
+
+                    if(res.message == "success") {
+                        res.data.forEach { courseInfoData ->
+                            if (courseInfoData.visible == "1") courseData.add(courseInfoData)
+                        }
+                    } else RequestFragmentDialog().show(supportFragmentManager,"11")
                 }
             })
 
@@ -97,12 +98,11 @@ class HomeViewModel : ViewModel() {
         })
     }
 
-    fun getCourseContent(courseId : Int, userToken : String) {
-        Log.e("사용자 토큰",userToken)
+    fun getCourseContent(supportFragmentManager: FragmentManager, courseId : Int) {
 
         currentCourseContentData.clear()
 
-        retrofitBuilder.networkService.getCourseContent(courseId,userToken).enqueue(object : Callback<ResponseCourseContentData>{
+        retrofitBuilder.networkService.getCourseContent(courseId,SingleTon.prefs.userToken.toString()).enqueue(object : Callback<ResponseCourseContentData>{
             override fun onFailure(call: Call<ResponseCourseContentData>, t: Throwable) {
 
             }
@@ -112,15 +112,16 @@ class HomeViewModel : ViewModel() {
                 response: Response<ResponseCourseContentData>
             ) {
                 val res = response.body()!!
-                res.data.forEach{ courseDetailData ->
-                    Log.e("$$$", courseDetailData.toString())
-                    currentCourseContentData.add(courseDetailData)
-                }
+                if(res.message == "success") {
+                    res.data.forEach { courseDetailData ->
+                        currentCourseContentData.add(courseDetailData)
+                    }
+                } else RequestFragmentDialog().show(supportFragmentManager,"11")
             }
         })
     }
 
-    fun getBoard(contentsId : Int) {
+    fun getBoard(supportFragmentManager: FragmentManager,contentsId : Int) {
         boardDataList.clear()
 
         retrofitBuilder.networkService.getBoard(contentsId, SingleTon.prefs.userToken.toString()).enqueue(object : Callback<ResponseBoardData>{
@@ -138,8 +139,11 @@ class HomeViewModel : ViewModel() {
                         boardDataList.add(boardDetailData)
                     }
                 }
+                else RequestFragmentDialog().show(supportFragmentManager,"11")
+
             }
 
         })
     }
+
 }

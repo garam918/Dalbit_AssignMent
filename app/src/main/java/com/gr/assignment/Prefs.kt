@@ -9,14 +9,13 @@ class Prefs(context: Context) {
 
     var schoolToken : String?
     get() = prefs.getString("schoolToken",null)
-    set(value) {
-        prefs.edit().putString("schoolToken",value).apply()
-    }
+        set(value) {
+            prefs.edit().putString("schoolToken",value).apply()
+        }
 
     var userToken : String?
     get() = prefs.getString("userToken",null)
-    set(value) {
-        prefs.edit().putString("userToken",value).apply()
-    }
-
+        set(value) {
+            prefs.edit().putString("userToken",value).apply()
+        }
 }

@@ -41,11 +41,13 @@
         </androidx.appcompat.widget.Toolbar>
 
         <TextView
+            android:paddingTop="20dp"
             android:text="제목"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <EditText
+            android:id="@+id/subjectEditText"
             android:text="@={viewModel.subject}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -56,21 +58,23 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+            android:id="@+id/contentEditText"
             android:text="@={viewModel.content}"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="150dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <Button
                 contentsId="@{viewModel.currentSelectedContentsId}"
                 contentsName="@{viewModel.currentSelectedContentsName}"
-                token="@{viewModel.userToken}"
                 subject="@{viewModel.subject}"
                 content="@{viewModel.content}"
+                subjectEditText="@{subjectEditText}"
+                contentEditText="@{contentEditText}"
                 android:layout_weight="1"
                 android:text="확인"
                 android:layout_width="match_parent"
@@ -79,6 +83,8 @@
             <Button
                 contentsId="@{viewModel.currentSelectedContentsId}"
                 contentsName="@{viewModel.currentSelectedContentsName}"
+                subjectEditText="@{subjectEditText}"
+                contentEditText="@{contentEditText}"
                 android:layout_weight="1"
                 android:text="취소"
                 android:layout_width="match_parent"

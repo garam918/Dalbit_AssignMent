@@ -28,6 +28,14 @@ class RequestFragmentDialog : DialogFragment() {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_request_dialog,container,false)
         viewModel = ViewModelProvider(this.requireActivity()).get(MainViewModel::class.java)
+
+        init()
+
+        return binding.root
+
+    }
+
+    private fun init() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -40,8 +48,6 @@ class RequestFragmentDialog : DialogFragment() {
             this.requireActivity().startActivity(intent)
             this.dismiss()
         }
-
-        return binding.root
 
     }
 

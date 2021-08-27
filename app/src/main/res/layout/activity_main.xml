@@ -75,6 +75,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:inputType="textPassword"
                 android:text="@={viewModel.userPw}"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -86,7 +87,6 @@
         <Button
             app:id="@{viewModel.userId}"
             app:pw="@{viewModel.userPw}"
-            app:token="@{viewModel.currentSelectedSchool.token}"
             android:text="로그인"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

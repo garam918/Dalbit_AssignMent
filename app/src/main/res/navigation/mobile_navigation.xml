@@ -76,6 +76,36 @@
                 android:name="courseId"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_navigation_content_to_navigation_web_view"
+            app:destination="@id/navigation_web_view">
+
+            <argument
+                android:name="html"
+                app:argType="string"/>
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_web_view"
+        android:name="com.gr.assignment.ui.home.WebViewFragment"
+        android:label="WebView"
+        tools:layout="@layout/fragment_web_view">
+
+        <action
+            android:id="@+id/action_navigation_web_view_to_navigation_content"
+            app:destination="@id/navigation_content">
+
+            <argument
+                android:name="contentsId"
+                app:argType="integer"/>
+
+            <argument
+                android:name="contentsName"
+                app:argType="string"/>
+
+        </action>
     </fragment>
 
     <fragment

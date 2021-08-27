@@ -1,7 +1,6 @@
 package com.gr.assignment.util
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.os.bundleOf
@@ -13,14 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gr.assignment.CourseMosActivity
-import com.gr.assignment.MainActivity
 import com.gr.assignment.R
+import com.gr.assignment.RequestFragmentDialog
 import com.gr.assignment.SingleTon
 import com.gr.assignment.data.*
 import com.gr.assignment.network.RetrofitBuilder
 import de.hdodenhof.circleimageview.CircleImageView
-import okhttp3.MediaType
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -69,6 +66,7 @@ object DataBindingAdapter {
         else textView.visibility = View.VISIBLE
     }
 
+    // spinner를 활용해 대학들의 목록을 표시했습니다.
     @BindingAdapter("setSpinner")
     @JvmStatic
     fun setSpinner(spinner: Spinner, items: MutableLiveData<ArrayList<String>>) {
@@ -78,30 +76,42 @@ object DataBindingAdapter {
         spinner.adapter = adapter
     }
 
-    @BindingAdapter("id", "pw", "token")
+    @BindingAdapter("id", "pw")
     @JvmStatic
-    fun login(button: Button, id : String?, pw : String?, token : String?) {
+    fun login(button: Button, id : String?, pw : String?) {
         button.setOnClickListener {
+                RetrofitBuilder.networkService.login(id.toString(), pw.toString(), SingleTon.prefs.schoolToken.toString())
+                    .enqueue(
+                        object : Callback<ResponseLoginData> {
+                            override fun onFailure(call: Call<ResponseLoginData>, t: Throwable) {
 
-            val retrofitBuilder = RetrofitBuilder
-            retrofitBuilder.networkService.login(id.toString(), pw.toString(), token.toString()).enqueue(
-                object : Callback<ResponseLoginData> {
-                    override fun onFailure(call: Call<ResponseLoginData>, t: Throwable) {
+                            }
 
-                    }
-                    override fun onResponse(
-                        call: Call<ResponseLoginData>,
-                        response: Response<ResponseLoginData>
-                    ) {
-                        SingleTon.prefs.userToken = response.body()?.data?.token
-                        SingleTon.prefs.schoolToken = token
+                            override fun onResponse(
+                                call: Call<ResponseLoginData>,
+                                response: Response<ResponseLoginData>
+                            ) {
+                                val res = response.body()!!
+                                when (res.message) {
 
-                        val intent = Intent(button.context, CourseMosActivity::class.java)
-                        button.context.startActivity(intent)
+                                    // message가 success인 경우에만 다음화면으로 넘어가게 구현했습니다.
+                                    "success" -> {
 
-                    }
-                }
-            )
+                                        SingleTon.prefs.userToken = response.body()?.data?.token
+
+                                        val intent = Intent(button.context, CourseMosActivity::class.java)
+                                        button.context.startActivity(intent)
+
+                                    }
+                                    "계정을 확인해주세요." -> Toast.makeText(button.context,res.message,Toast.LENGTH_SHORT).show()
+                                    "토큰이 만료되었습니다" -> {
+                                        Toast.makeText(button.context,"토큰이 만료되었씁니다.\n학교를 다시 선택해주세요", Toast.LENGTH_SHORT).show()
+                                    }
+                                    else -> Toast.makeText(button.context,"로그인에 실패했습니다.",Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    )
         }
     }
 
@@ -155,13 +165,14 @@ object DataBindingAdapter {
         }
     }
 
-    @BindingAdapter("contentsId" ,"contentsName", "token", "subject", "content")
+    @BindingAdapter("contentsId" ,"contentsName", "subject", "content", "subjectEditText","contentEditText")
     @JvmStatic
-    fun confirm(button: Button, contentsId: Int, contentsName: String, token: String, subject : String?, content : String?) {
+    fun confirm(button: Button, contentsId: Int, contentsName: String, subject : String?, content : String?, subjectEdit : EditText, contentEdit : EditText) {
 
         button.setOnClickListener {
 
-            val data = PostData(contentsId,token,subject.toString(),content.toString())
+            val data = PostData(contentsId,
+                SingleTon.prefs.userToken.toString(),subject.toString(),content.toString())
 
             RetrofitBuilder.networkService.boardWrite(data).enqueue(object : Callback<DefaultResponseBody> {
                 override fun onFailure(call: Call<DefaultResponseBody>, t: Throwable) {
@@ -174,21 +185,26 @@ object DataBindingAdapter {
                 ) {
                     val res = response.body()!!
                     val bundle = bundleOf("contentsId" to contentsId, "contentsName" to contentsName)
-                    Log.e("res",res.toString())
                     if(res.message == "success") {
+                        subjectEdit.text.clear()
+                        contentEdit.text.clear()
                         it.findNavController().navigate(R.id.action_navigation_board_write_to_navigation_content, bundle)
                     }
-
+                    else {
+                        RequestFragmentDialog().show((it.context as CourseMosActivity).supportFragmentManager,"11")
+                    }
 
                 }
             })
         }
     }
 
-    @BindingAdapter("contentsId", "contentsName")
+    @BindingAdapter("contentsId", "contentsName", "subjectEditText","contentEditText")
     @JvmStatic
-    fun setCancel(button: Button, contentsId: Int, contentsName : String) {
+    fun setCancel(button: Button, contentsId: Int, contentsName : String, subjectEdit : EditText, contentEdit : EditText) {
         button.setOnClickListener {
+            subjectEdit.text.clear()
+            contentEdit.text.clear()
             it.findNavController().navigate(R.id.action_navigation_board_write_to_navigation_content, bundleOf("contentsId" to contentsId , "contentsName" to contentsName))
         }
     }
@@ -202,13 +218,12 @@ object DataBindingAdapter {
         }
     }
 
-//    @BindingAdapter("setReLogin")
-//    @JvmStatic
-//    fun setAutoLogin(button: Button) {
-//        button.setOnClickListener {
-//            val intent = Intent(it.context,MainActivity::class.java)
-//            button.context.startActivity(intent)
-//        }
-//    }
-
+    @BindingAdapter("contentsId", "contentsName")
+    @JvmStatic
+    fun setPrevious(imageButton: ImageButton, contentsId: Int, contentsName: String) {
+        imageButton.setOnClickListener {
+            val bundle = bundleOf("contentsId" to contentsId, "contentsName" to contentsName)
+            it.findNavController().navigate(R.id.action_navigation_web_view_to_navigation_content, bundle)
+        }
+    }
 }

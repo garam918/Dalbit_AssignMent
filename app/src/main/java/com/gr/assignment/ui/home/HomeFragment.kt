@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import com.gr.assignment.R
 import com.gr.assignment.databinding.FragmentHomeBinding
 
@@ -34,6 +33,6 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.homeViewModel = homeViewModel
 
-        homeViewModel.getCourseList()
+        homeViewModel.getCourseList(this.requireActivity().supportFragmentManager)
     }
 }

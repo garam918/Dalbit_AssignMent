@@ -21,15 +21,24 @@ class ContentFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_content,container,false)
+
+        init()
+
+        return binding.root
+    }
+
+    private fun init() {
         viewModel = ViewModelProvider(this.requireActivity()).get(HomeViewModel::class.java)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.getBoard(arguments?.get("contentsId").toString().toInt())
+
+        viewModel.currentSelectedContentsId.value = arguments?.get("contentsId").toString().toInt()
         viewModel.currentSelectedContentsName.value = arguments?.getString("contentsName")
 
-        return binding.root
+        viewModel.getBoard(this.requireActivity().supportFragmentManager,viewModel.currentSelectedContentsId.value!!.toInt())
+
     }
 
 }

@@ -21,11 +21,16 @@ class BoardWriteFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_board_write,container,false)
-        viewModel = ViewModelProvider(this.requireActivity()).get(HomeViewModel::class.java)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+
+        init()
 
         return binding.root
     }
 
+    private fun init() {
+        viewModel = ViewModelProvider(this.requireActivity()).get(HomeViewModel::class.java)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+    }
 }
