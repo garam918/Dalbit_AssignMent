@@ -18,7 +18,7 @@ https://youtu.be/XNkZy5J7DBg
 - DataBinding
 - Glide 4.10.0
 - ViewModel
-- implementation 'de.hdodenhof:circleimageview:3.1.0'
+- de.hdodenhof:circleimageview:3.1.0
 
 ***
 </br>
