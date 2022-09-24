@@ -29,10 +29,6 @@ https://youtu.be/XNkZy5J7DBg
 
 <img width="30%" src="https://user-images.githubusercontent.com/62510764/131065992-8477035c-4e70-4489-881c-473df7472e85.jpg"/> <img width="30%" src="https://user-images.githubusercontent.com/62510764/131066066-c00ef6d3-c45c-44ed-b7be-16a31c23376b.jpg"/> <img width="30%" src="https://user-images.githubusercontent.com/62510764/131066022-a095e2cc-1887-424b-b5a3-2cf7846e5108.jpg"/> <img width="30%" src="https://user-images.githubusercontent.com/62510764/131066088-d6c23c1e-3c17-41d8-addf-c98e086d59b0.jpg"/> <img width="30%" src="https://user-images.githubusercontent.com/62510764/131066115-2369fc3e-e7f5-4c95-b099-783ea403acbe.jpg"/> <img width="30%" src="https://user-images.githubusercontent.com/62510764/131066130-6ced5744-133e-4587-8ec0-0862d3e5bb23.jpg"/> <img width="30%" src="https://user-images.githubusercontent.com/62510764/131066147-9aad7759-fa56-4239-a742-4e4f0ad20c26.jpg"/>
 
-## 시연 영상
-
-https://youtu.be/VVG9KyFRHV8
-
 ## 사용 기술
 
 - Kotlin
